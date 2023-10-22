@@ -11,7 +11,7 @@ public interface HomeMapper {
 	int insertMember(MemberDTO memberDTO);
 
 	int updateMember(MemberDTO memberDTO);
-	
+
 	int deleteMember(String id);
 
 }
