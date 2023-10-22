@@ -39,6 +39,9 @@ prefix="c" %>
   <body>
     <div class="detail_container">
       <div class="detail_info_container">
+        <div>
+          <img src="/app/resources/upload/${member.test_img}" />
+        </div>
         <div class="detail_info_div">
           <label>Name</label>
           <span>${member.test_name}</span>

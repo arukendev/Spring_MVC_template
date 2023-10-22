@@ -1,5 +1,7 @@
 package com.test.app;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +37,7 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/insert/set", method = RequestMethod.POST)
-	public String setInsert(MemberDTO memberDTO, Model model) {
+	public String setInsert(MemberDTO memberDTO, Model model) throws IOException, IllegalStateException {
 
 		return homeDAO.insertMember(memberDTO, model);
 

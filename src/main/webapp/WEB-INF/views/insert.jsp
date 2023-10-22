@@ -29,7 +29,7 @@ prefix="c" %>
         <div class="insert_from">
           <div>
             <label for="img">Img</label>
-            <input name="test_img" id="img" type="file" accept="image/*" />
+            <input name="file_img" id="img" type="file" accept="image/*" />
           </div>
           <div>
             <label for="name">Name</label>
@@ -48,22 +48,32 @@ prefix="c" %>
       </form>
     </div>
     <script>
+      const file = document.querySelector("#img");
       const name = document.querySelector("#name");
       const age = document.querySelector("#age");
 
       const submit = document.querySelector("#submit");
 
-      function errorHandler(name, age) {
-        if (name === "" || age === "") return false;
-        if (!/^[1-9]\d{0,2}$/g.test(age)) return false;
-        if (name.length > 100) return false;
-        return true;
+      function errorHandler(file, name, age) {
+        if (!file) return "파일 업로드 해줘";
+        if (name === "") return "이름 입력 해줘";
+        if (age === "") return "나이 입력 해줘";
+        if (name.length > 100) return "이름 100자 이내 해줘";
+        if (!/^[1-9]\d{0,2}$/g.test(age)) return "나이 제대로 입력 해줘";
+        return "good";
       }
 
       submit.addEventListener("click", (event) => {
-        if (!errorHandler(name.value, age.value)) {
-          alert("Error Occurrence!");
+        if (errorHandler(file.value, name.value, age.value) !== "good") {
+          alert(errorHandler(file.value, name.value, age.value));
           event.preventDefault();
+        }
+      });
+
+      file.addEventListener("change", () => {
+        if (file.files[0]["type"].split("/")[0] !== "image") {
+          alert("이미지로 업로드 해줘");
+          file.value = "";
         }
       });
     </script>
