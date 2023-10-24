@@ -29,6 +29,13 @@ public class HomeController {
 
 	}
 
+	@RequestMapping(value = "/detail/{id}", method = RequestMethod.POST)
+	public String errDetail(@PathVariable String id, Model model) {
+
+		return homeDAO.getMember(id, model, false);
+
+	}
+
 	@RequestMapping(value = "/insert", method = RequestMethod.GET)
 	public String insert() {
 
@@ -36,8 +43,15 @@ public class HomeController {
 
 	}
 
+	@RequestMapping(value = "/insert", method = RequestMethod.POST)
+	public String errInsert() {
+
+		return "insert";
+
+	}
+
 	@RequestMapping(value = "/insert/set", method = RequestMethod.POST)
-	public String setInsert(MemberDTO memberDTO, Model model) throws IOException, IllegalStateException {
+	public String setInsert(MemberDTO memberDTO, Model model) throws IllegalStateException, IOException {
 
 		return homeDAO.insertMember(memberDTO, model);
 
@@ -50,8 +64,9 @@ public class HomeController {
 
 	}
 
-	@RequestMapping(value = "/detail/update/{id}", method = RequestMethod.PUT)
-	public String setUpdate(@PathVariable String id, MemberDTO memberDTO, Model model) {
+	@RequestMapping(value = "/detail/update/{id}", method = RequestMethod.POST)
+	public String setUpdate(@PathVariable String id, MemberDTO memberDTO, Model model)
+			throws IllegalStateException, IOException {
 
 		return homeDAO.updateMember(id, memberDTO, model);
 

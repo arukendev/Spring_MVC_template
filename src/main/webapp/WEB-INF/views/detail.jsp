@@ -34,13 +34,22 @@ prefix="c" %>
         align-items: center;
         gap: 20px;
       }
+
+      #preview {
+        max-height: 500px;
+      }
     </style>
   </head>
   <body>
     <div class="detail_container">
       <div class="detail_info_container">
+        <c:if test="${empty member.test_img}">
+          <div>
+            <span>사진을 넣어주세요!!</span>
+          </div>
+        </c:if>
         <div>
-          <img src="/app/resources/upload/${member.test_img}" />
+          <img src="/app/resources/upload/${member.test_img}" id="preview" />
         </div>
         <div class="detail_info_div">
           <label>Name</label>

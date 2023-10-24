@@ -37,7 +37,7 @@ public class HomeDAO {
 
 	}
 
-	public String insertMember(MemberDTO memberDTO, Model model) throws IOException, IllegalStateException {
+	public String insertMember(MemberDTO memberDTO, Model model) throws IllegalStateException, IOException {
 
 		MultipartFile file = memberDTO.getFile_img();
 		System.out.println(file);
@@ -48,41 +48,73 @@ public class HomeDAO {
 
 		System.out.println("파일명 : " + fileRealName);
 		System.out.println("용량크기(byte) : " + size);
-		// 서버에 저장할 파일이름 fileextension으로 .jsp이런식의 확장자 명을 구함
-		String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
-		String uniqueName = UUID.randomUUID().toString().split("-")[0];
-		System.out.println("생성된 고유문자열 : " + uniqueName);
-		System.out.println("확장자명 : " + fileExtension);
-		System.out.println("업로드 폴더 : " + uploadFolder);
 
-		// File saveFile = new File(uploadFolder+"\\"+fileRealName); uuid 적용 전
+		if (fileRealName != null) {
+			String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
+			String uniqueName = UUID.randomUUID().toString().split("-")[0];
 
-		String fileName = uniqueName + fileExtension;
-		File saveFile = new File(uploadFolder + "/" + fileName); // 적용 후
+			System.out.println("생성된 고유문자열 : " + uniqueName);
+			System.out.println("확장자명 : " + fileExtension);
+			System.out.println("업로드 폴더 : " + uploadFolder);
 
-		file.transferTo(saveFile); // 실제 파일 저장메서드(filewriter 작업을 손쉽게 한방에 처리해준다.)
+			String fileName = uniqueName + fileExtension;
+			File saveFile = new File(uploadFolder + "/" + fileName);
 
-		memberDTO.setTest_img(fileName);
+			file.transferTo(saveFile);
+			memberDTO.setTest_img(fileName);
 
-		if (ss.getMapper(HomeMapper.class).insertMember(memberDTO) != 1) {
+			if (ss.getMapper(HomeMapper.class).insertMember(memberDTO) != 1) {
+				model.addAttribute("alert", "insert failed...");
+				return "forward:/insert";
+			}
+
+			return "redirect:/";
+		} else {
 			model.addAttribute("alert", "insert failed...");
 			return "forward:/insert";
 		}
 
-		return "redirect:/";
-
 	}
 
-	public String updateMember(String id, MemberDTO memberDTO, Model model) {
+	public String updateMember(String id, MemberDTO memberDTO, Model model) throws IllegalStateException, IOException {
 
 		memberDTO.setTest_id(Integer.parseInt(id));
 
-		if (ss.getMapper(HomeMapper.class).updateMember(memberDTO) != 1) {
-			model.addAttribute("alert", "update failed...");
+		MultipartFile file = memberDTO.getFile_img();
+		String uploadFolder = sc.getRealPath("resources/upload");
+
+		String fileRealName = file.getOriginalFilename(); // 파일명을 얻어낼 수 있는 메서드!
+		long size = file.getSize(); // 파일 사이즈
+
+		System.out.println("파일명 : " + fileRealName);
+		System.out.println("용량크기(byte) : " + size);
+
+		if (fileRealName != null) {
+			if (fileRealName.equals("")) {
+
+			}
+			String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
+			String uniqueName = UUID.randomUUID().toString().split("-")[0];
+			System.out.println("생성된 고유문자열 : " + uniqueName);
+			System.out.println("확장자명 : " + fileExtension);
+			System.out.println("업로드 폴더 : " + uploadFolder);
+
+			String fileName = uniqueName + fileExtension;
+			File saveFile = new File(uploadFolder + "/" + fileName);
+
+			file.transferTo(saveFile);
+			memberDTO.setTest_img(fileName);
+
+			if (ss.getMapper(HomeMapper.class).updateMember(memberDTO) != 1) {
+				model.addAttribute("alert", "update failed...");
+				return "forward:/detail/" + id;
+			}
+
+			return "redirect:/detail/" + id;
+		} else {
+			model.addAttribute("alert", "insert failed...");
 			return "forward:/detail/" + id;
 		}
-
-		return "redirect:/detail/" + id;
 
 	}
 

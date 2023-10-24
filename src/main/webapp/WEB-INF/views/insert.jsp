@@ -21,12 +21,19 @@ prefix="c" %>
         flex-direction: column;
         gap: 10px;
       }
+
+      #preview {
+        max-height: 500px;
+      }
     </style>
   </head>
   <body>
     <div class="insert_container">
       <form action="insert/set" method="post" enctype="multipart/form-data">
         <div class="insert_from">
+          <div>
+            <img id="preview" />
+          </div>
           <div>
             <label for="img">Img</label>
             <input name="file_img" id="img" type="file" accept="image/*" />
@@ -52,6 +59,7 @@ prefix="c" %>
       const name = document.querySelector("#name");
       const age = document.querySelector("#age");
 
+      const preview = document.querySelector("#preview");
       const submit = document.querySelector("#submit");
 
       function errorHandler(file, name, age) {
@@ -74,6 +82,11 @@ prefix="c" %>
         if (file.files[0]["type"].split("/")[0] !== "image") {
           alert("이미지로 업로드 해줘");
           file.value = "";
+          preview.src = "";
+        } else {
+          const reader = new FileReader();
+          reader.onload = (event) => (preview.src = event.target.result);
+          reader.readAsDataURL(file.files[0]);
         }
       });
     </script>
