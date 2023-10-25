@@ -15,7 +15,9 @@
 	</insert>
 
 	<update id="updateMember">
-		update test_db set test_name = #{test_name}, test_age = #{test_age} where test_id = #{test_id}
+		update test_db
+		set test_name = #{test_name}, test_age = #{test_age}, test_img = #{test_img}
+		where test_id = #{test_id}
 	</update>
 
 	<delete id="deleteMember">

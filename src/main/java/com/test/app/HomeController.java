@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomeController {
@@ -73,9 +74,9 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/detail/delete/{id}", method = RequestMethod.DELETE)
-	public String delete(@PathVariable String id, Model model) {
+	public String delete(@PathVariable String id, @RequestParam("img") String img, Model model) {
 
-		return homeDAO.deleteMember(id, model);
+		return homeDAO.deleteMember(id, img, model);
 
 	}
 

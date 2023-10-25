@@ -35,8 +35,12 @@
 		class="org.apache.commons.dbcp2.BasicDataSource">
 		<beans:property name="driverClassName"
 			value="oracle.jdbc.driver.OracleDriver" />
+		<!-- wsl환경 -->
+		<!-- <beans:property name="url"
+			value="jdbc:oracle:thin:@jaehyun_tpurgent?TNS_ADMIN=/home/aruhyon/wallet" /> -->
+		<!-- 맥환경 -->
 		<beans:property name="url"
-			value="jdbc:oracle:thin:@jaehyun_tpurgent?TNS_ADMIN=/home/aruhyon/wallet" />
+			value="jdbc:oracle:thin:@jaehyun_tpurgent?TNS_ADMIN=/Users/ariken/Oracle/wallet" />
 		<beans:property name="username" value="admin" />
 		<beans:property name="password" value="Soldesk802ljh!" />
 	</beans:bean>

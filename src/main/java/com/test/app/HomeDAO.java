@@ -92,6 +92,13 @@ public class HomeDAO {
 		if (fileRealName != null) {
 			if (fileRealName.equals("")) {
 
+				if (ss.getMapper(HomeMapper.class).updateMember(memberDTO) != 1) {
+					model.addAttribute("alert", "update failed...");
+					return "forward:/detail/" + id;
+				}
+
+				return "redirect:/detail/" + id;
+
 			}
 			String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
 			String uniqueName = UUID.randomUUID().toString().split("-")[0];
@@ -103,6 +110,10 @@ public class HomeDAO {
 			File saveFile = new File(uploadFolder + "/" + fileName);
 
 			file.transferTo(saveFile);
+
+			File deleteFile = new File(uploadFolder + "/" + memberDTO.getTest_img());
+			deleteFile.delete();
+
 			memberDTO.setTest_img(fileName);
 
 			if (ss.getMapper(HomeMapper.class).updateMember(memberDTO) != 1) {
@@ -111,6 +122,7 @@ public class HomeDAO {
 			}
 
 			return "redirect:/detail/" + id;
+
 		} else {
 			model.addAttribute("alert", "insert failed...");
 			return "forward:/detail/" + id;
@@ -118,7 +130,12 @@ public class HomeDAO {
 
 	}
 
-	public String deleteMember(String id, Model model) {
+	public String deleteMember(String id, String img, Model model) {
+
+		String path = sc.getRealPath("resources/upload");
+
+		File file = new File(path + "/" + img);
+		file.delete();
 
 		if (ss.getMapper(HomeMapper.class).deleteMember(id) != 1) {
 			model.addAttribute("alert", "delete failed...");

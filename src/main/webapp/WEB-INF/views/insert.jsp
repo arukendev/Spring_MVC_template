@@ -79,8 +79,8 @@ prefix="c" %>
       });
 
       file.addEventListener("change", () => {
-        if (file.files[0]["type"].split("/")[0] !== "image") {
-          alert("이미지로 업로드 해줘");
+        if (!file.value || file.files[0]["type"].split("/")[0] !== "image") {
+          alert("이미지 업로드 해줘");
           file.value = "";
           preview.src = "";
         } else {

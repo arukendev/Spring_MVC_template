@@ -69,6 +69,7 @@ prefix="c" %>
         </form>
         <form action="delete/${member.test_id}" method="post">
           <input type="hidden" name="_method" value="delete" />
+          <input type="hidden" name="img" value="${member.test_img}" />
           <button id="deleteBtn">delete this member</button>
         </form>
         <form action="/app">
